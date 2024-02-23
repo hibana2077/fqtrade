@@ -1,0 +1,33 @@
+{
+  "strategy_name": "EVA2",
+  "params": {
+    "buy": {},
+    "sell": {
+      "sell_loss_cci": 148,
+      "sell_loss_cci_profit": -0.04,
+      "sell_cci": 186,
+      "sell_fastx": 78
+    },
+    "protection": {},
+    "roi": {
+      "0": 0.16999999999999998,
+      "110": 0.08,
+      "167": 0.027,
+      "361": 0
+    },
+    "stoploss": {
+      "stoploss": -0.281
+    },
+    "trailing": {
+      "trailing_stop": true,
+      "trailing_stop_positive": 0.13,
+      "trailing_stop_positive_offset": 0.216,
+      "trailing_only_offset_is_reached": false
+    },
+    "max_open_trades": {
+      "max_open_trades": 1
+    }
+  },
+  "ft_stratparam_v": 1,
+  "export_time": "2024-02-23 11:45:26.983846+00:00"
+}

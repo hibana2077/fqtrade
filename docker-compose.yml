@@ -1,0 +1,46 @@
+---
+version: '3'
+services:
+  freqtrade:
+    image: freqtradeorg/freqtrade:stable
+    # image: freqtradeorg/freqtrade:develop
+    # Use plotting image
+    # image: freqtradeorg/freqtrade:develop_plot
+    # # Enable GPU Image and GPU Resources (only relevant for freqAI)
+    # # Make sure to uncomment the whole deploy section
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    # Build step - only needed when additional dependencies are needed
+    # build:
+    #   context: .
+    #   dockerfile: "./docker/Dockerfile.custom"
+    restart: no
+    # unless-stopped
+    container_name: freqtrade
+    volumes:
+      - "./user_data:/freqtrade/user_data"
+    # Expose api on port 8080 (localhost only)
+    # Please read the https://www.freqtrade.io/en/stable/rest-api/ documentation
+    # for more information.
+    ports:
+      - "0.0.0.0:8080:8080"
+    # Default command used when running `docker compose up`
+      # trade
+      # --logfile /freqtrade/user_data/logs/freqtrade.log
+      # --db-url sqlite:////freqtrade/user_data/tradesv3.sqlite
+      # --config /freqtrade/user_data/config.json
+      # --strategy E0V1E
+      # ===
+      # backtesting --strategy EVA1 
+      # ===
+      # download-data --exchange binance --days 30 -t 15m
+      # ===
+      # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss <hyperoptlossname> --strategy <strategyname> -e 500 --spaces all
+      # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss QuickHyperOptLoss --strategy EVA2 -e 500 --spaces trailing stoploss roi --ignore-missing-spaces
+    command: >
+      hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss PEDHyperOptLoss --strategy EVA2 -e 500 --spaces all --ignore-missing-spaces
