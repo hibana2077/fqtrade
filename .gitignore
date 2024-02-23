@@ -1,4 +1,4 @@
-user_data/data/*
+user_data/data/binance/*
 user_data/backtest_results/*
 user_data/hyperopt_results/*
 *.sqlite
