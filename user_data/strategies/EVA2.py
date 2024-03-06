@@ -40,10 +40,12 @@ class EVA2(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         # buy_1 indicators
-        dataframe['sma_15'] = ta.SMA(dataframe, timeperiod=15)
-        dataframe['cti'] = pta.cti(dataframe["close"], length=20)
-        dataframe['rsi'] = ta.RSI(dataframe, timeperiod=14)
-        dataframe['rsi_fast'] = ta.RSI(dataframe, timeperiod=4)
+        dataframe['sma_5'] = ta.SMA(dataframe, timeperiod=5)
+        dataframe['sma_10'] = ta.SMA(dataframe, timeperiod=10)
+        dataframe['sma_25'] = ta.SMA(dataframe, timeperiod=25)
+        dataframe['sma_60'] = ta.SMA(dataframe, timeperiod=60)
+        dataframe['sma_up_trend'] = (dataframe['sma_5'] > dataframe['sma_10']) & (dataframe['sma_10'] > dataframe['sma_25']) & (dataframe['sma_25'] > dataframe['sma_60']) & (dataframe['close'].shift(1) < dataframe['sma_5'].shift(1))
+        dataframe['uptrend_switch'] = dataframe['sma_up_trend'].shift(1) & ~dataframe['sma_up_trend']
         # profit sell indicators
         stoch_fast = ta.STOCHF(dataframe, 5, 3, 0, 3, 0)
         dataframe['fastk'] = stoch_fast['fastk']
@@ -53,10 +55,7 @@ class EVA2(IStrategy):
     def populate_entry_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         conditions = []
         dataframe.loc[:, 'enter_tag'] = ''
-        buy_1 = (
-            (dataframe['rsi_fast'] > 50) &
-            (dataframe['rsi'] > 50) &
-            (dataframe['cti'] < 0))
+        buy_1 = (dataframe['uptrend_switch'] == True)
         conditions.append(buy_1)
         dataframe.loc[buy_1, 'enter_tag'] += 'buy_1'
         if conditions:

@@ -1,4 +1,3 @@
----
 version: '3'
 services:
   freqtrade:
@@ -43,4 +42,4 @@ services:
       # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss <hyperoptlossname> --strategy <strategyname> -e 500 --spaces all
       # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss QuickHyperOptLoss --strategy EVA2 -e 500 --spaces trailing stoploss roi --ignore-missing-spaces
     command: >
-      hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss PEDHyperOptLoss --strategy EVA2 -e 500 --spaces all --ignore-missing-spaces
+      backtesting --strategy EVA2

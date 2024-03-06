@@ -65,7 +65,10 @@
             "GLM/USDT:USDT",
             "USTC/USDT:USDT",
             "ARK/USDT:USDT",
-            "CKB/USDT:USDT"
+            "PORTAL/USDT:USDT",
+            "TON/USDT:USDT",
+            "AXL/USDT:USDT",
+            "MYRO/USDT:USDT"
         ]
     },
     "pairlists": [
