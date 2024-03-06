@@ -32,6 +32,8 @@ class EVA2(IStrategy):
     stoploss = -0.25
 
     is_optimize_32 = True
+
+    buy_close_sma_dis_pct = DecimalParameter(0.01, 0.05, default=0.02, decimals=2, space='buy', optimize=True)
     
     sell_fastx = IntParameter(50, 100, default=70, space='sell', optimize=True)
     sell_loss_cci = IntParameter(low=0, high=600, default=148, space='sell', optimize=False)
@@ -55,7 +57,7 @@ class EVA2(IStrategy):
     def populate_entry_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         conditions = []
         dataframe.loc[:, 'enter_tag'] = ''
-        buy_1 = (dataframe['uptrend_switch'] == True)
+        buy_1 = (dataframe['uptrend_switch'] == True) & (dataframe['close'] < dataframe['sma_5'] * (1 - self.buy_close_sma_dis_pct.value))
         conditions.append(buy_1)
         dataframe.loc[buy_1, 'enter_tag'] += 'buy_1'
         if conditions:
