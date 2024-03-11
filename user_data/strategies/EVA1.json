@@ -2,37 +2,37 @@
   "strategy_name": "EVA1",
   "params": {
     "buy": {
-      "buy_cti_32": -0.35,
-      "buy_rsi_32": 23,
-      "buy_rsi_fast_32": 23,
-      "buy_sma15_32": 0.976
+      "buy_cti_32": -0.47,
+      "buy_rsi_32": 17,
+      "buy_rsi_fast_32": 32,
+      "buy_sma15_32": 0.957
     },
     "sell": {
       "sell_cci": 90,
       "sell_loss_cci": 148,
       "sell_loss_cci_profit": -0.04,
-      "sell_fastx": 98
+      "sell_fastx": 92
     },
     "protection": {},
     "roi": {
-      "0": 0.158,
-      "107": 0.114,
-      "257": 0.033,
-      "614": 0
+      "0": 0.206,
+      "87": 0.087,
+      "119": 0.031,
+      "216": 0
     },
     "stoploss": {
-      "stoploss": -0.247
+      "stoploss": -0.02
     },
     "trailing": {
       "trailing_stop": true,
-      "trailing_stop_positive": 0.251,
-      "trailing_stop_positive_offset": 0.311,
-      "trailing_only_offset_is_reached": false
+      "trailing_stop_positive": 0.325,
+      "trailing_stop_positive_offset": 0.331,
+      "trailing_only_offset_is_reached": true
     },
     "max_open_trades": {
-      "max_open_trades": 1
+      "max_open_trades": 30
     }
   },
   "ft_stratparam_v": 1,
-  "export_time": "2024-02-23 04:48:50.905528+00:00"
+  "export_time": "2024-03-06 09:01:58.142958+00:00"
 }
