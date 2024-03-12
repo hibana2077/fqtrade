@@ -11,11 +11,11 @@ import warnings
 warnings.simplefilter(action="ignore", category=RuntimeWarning)
 
 
-class BOLT(IStrategy):
+class RSI_F(IStrategy):
     minimal_roi = {
         "0": 1
     }
-    timeframe = '15m'
+    timeframe = '1m'
     process_only_new_candles = True
     startup_candle_count = 120
     order_types = {
@@ -33,7 +33,8 @@ class BOLT(IStrategy):
 
     is_optimize_32 = True
 
-    buy_ma_period = IntParameter(5, 60, default=15, space='buy', optimize=True)
+    buy_rsi_period = IntParameter(5, 60, default=15, space='buy', optimize=True)
+    buy_rsi_value = IntParameter(20, 70, default=30, space='buy', optimize=True)
 
     sell_fastx = IntParameter(50, 100, default=70, space='sell', optimize=True)
     sell_loss_cci = IntParameter(low=0, high=600, default=148, space='sell', optimize=False)
@@ -42,8 +43,7 @@ class BOLT(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         # buy indicators
-        dataframe['hammer'] = pta.cdl_pattern(open_=dataframe['open'], high=dataframe['high'], low=dataframe['low'], close=dataframe['close'], name='hammer')
-        dataframe['sma'] = ta.SMA(dataframe, timeperiod=self.buy_ma_period.value)
+        dataframe['rsi'] = ta.RSI(dataframe, timeperiod=self.buy_rsi_period.value)
 
         # profit sell indicators
         stoch_fast = ta.STOCHF(dataframe, 5, 3, 0, 3, 0)
@@ -57,8 +57,7 @@ class BOLT(IStrategy):
         conditions = []
         dataframe.loc[:, 'enter_tag'] = ''
         buy_1 = (
-            (dataframe['hammer'] == 100) &
-            (dataframe['close'] > dataframe['sma'])
+            (dataframe['rsi'] < self.buy_rsi_value.value)
         )
         conditions.append(buy_1)
         dataframe.loc[buy_1, 'enter_tag'] += 'buy_1'

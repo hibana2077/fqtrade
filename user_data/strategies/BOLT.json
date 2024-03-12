@@ -1,0 +1,35 @@
+{
+  "strategy_name": "BOLT",
+  "params": {
+    "buy": {
+      "buy_ma_period": 46
+    },
+    "sell": {
+      "sell_cci": 90,
+      "sell_loss_cci": 148,
+      "sell_loss_cci_profit": -0.04,
+      "sell_fastx": 83
+    },
+    "protection": {},
+    "roi": {
+      "0": 0.032,
+      "4": 0.012,
+      "11": 0.008,
+      "30": 0
+    },
+    "stoploss": {
+      "stoploss": -0.313
+    },
+    "trailing": {
+      "trailing_stop": true,
+      "trailing_stop_positive": 0.293,
+      "trailing_stop_positive_offset": 0.299,
+      "trailing_only_offset_is_reached": true
+    },
+    "max_open_trades": {
+      "max_open_trades": 6
+    }
+  },
+  "ft_stratparam_v": 1,
+  "export_time": "2024-03-12 13:11:04.971797+00:00"
+}

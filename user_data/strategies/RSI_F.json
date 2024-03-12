@@ -1,0 +1,36 @@
+{
+  "strategy_name": "RSI_F",
+  "params": {
+    "buy": {
+      "buy_rsi_period": 51,
+      "buy_rsi_value": 20
+    },
+    "sell": {
+      "sell_cci": 90,
+      "sell_loss_cci": 148,
+      "sell_loss_cci_profit": -0.04,
+      "sell_fastx": 81
+    },
+    "protection": {},
+    "roi": {
+      "0": 0.10200000000000001,
+      "6": 0.025,
+      "17": 0.006,
+      "24": 0
+    },
+    "stoploss": {
+      "stoploss": -0.345
+    },
+    "trailing": {
+      "trailing_stop": true,
+      "trailing_stop_positive": 0.175,
+      "trailing_stop_positive_offset": 0.212,
+      "trailing_only_offset_is_reached": true
+    },
+    "max_open_trades": {
+      "max_open_trades": 5
+    }
+  },
+  "ft_stratparam_v": 1,
+  "export_time": "2024-03-12 14:16:29.682169+00:00"
+}
