@@ -38,7 +38,7 @@
         "ccxt_config": {},
         "ccxt_async_config": {},
         "pair_whitelist": [
-            ".*/USDT:USDT"
+            "ETC/USDT:USDT"
         ],
         "pair_blacklist": [
             "BNB/.*","USDC/.*","TUSD/.*","PAX/.*","USDS/.*","USDT/.*",
