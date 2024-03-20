@@ -69,7 +69,10 @@
             "TON/USDT:USDT",
             "AXL/USDT:USDT",
             "MYRO/USDT:USDT",
-            "METIS/USDT:USDT"
+            "METIS/USDT:USDT",
+            "AEVO/USDT:USDT",
+            "BOME/USDT:USDT",
+            "VANRY/USDT:USDT"
         ]
     },
     "pairlists": [
