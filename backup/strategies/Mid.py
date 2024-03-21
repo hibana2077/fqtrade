@@ -11,11 +11,11 @@ import warnings
 warnings.simplefilter(action="ignore", category=RuntimeWarning)
 
 
-class MACD(IStrategy):
+class Mid(IStrategy):
     minimal_roi = {
         "0": 1
     }
-    timeframe = '1h'
+    timeframe = '15m'
     process_only_new_candles = True
     startup_candle_count = 120
     order_types = {
@@ -32,9 +32,11 @@ class MACD(IStrategy):
     stoploss = -0.25
 
     is_optimize_32 = True
-    buy_macd_fast_period = IntParameter(5, 60, default=12, space='buy', optimize=True)
-    buy_macd_signal_period = IntParameter(5, 60, default=9, space='buy', optimize=True)
-    buy_macd_slow_period = IntParameter(5, 60, default=26, space='buy', optimize=True)
+    buy_bb_period = IntParameter(5, 60, default=15, space='buy', optimize=True)
+    buy_supertrend_period = IntParameter(5, 60, default=15, space='buy', optimize=True)
+    buy_supertrend_multiplier = DecimalParameter(0.5, 3, default=1, decimals=1, space='buy', optimize=True)
+    buy_bb_width_value = DecimalParameter(0.02, 0.2, default=0.02, decimals=2, space='buy', optimize=True)
+    buy_add_lost_pct = DecimalParameter(0.01, 0.1, default=0.05, decimals=2, space='buy', optimize=True)
 
     tpsl_atr_period = IntParameter(5, 60, default=15, space='buy', optimize=True)
     atr_sl_rate = DecimalParameter(0.3, 3, default=0.3, decimals=1, space='buy', optimize=True)
@@ -42,12 +44,14 @@ class MACD(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         # buy indicators
-        macd = pta.macd(close=dataframe['close'], fast=self.buy_macd_fast_period.value, signal=self.buy_macd_signal_period.value, slow=self.buy_macd_slow_period.value)
-        dataframe['macd'] = macd.iloc[:, 0]
-        dataframe['macd_hist'] = macd.iloc[:, 1]
-        dataframe['macd_signal'] = macd.iloc[:, 2]
-        temp = pta.cdl_pattern(name="longline", open_=dataframe['open'], high=dataframe['high'], low=dataframe['low'], close=dataframe['close'])
-        dataframe['longline'] = temp
+        bb_bands = pta.bbands(dataframe['close'], length=self.buy_bb_period.value)
+        dataframe['bb_lowerband'] = bb_bands.iloc[:, 0]
+        dataframe['bb_upperband'] = bb_bands.iloc[:, 2]
+        dataframe['bb_middleband'] = bb_bands.iloc[:, 1]
+        dataframe['bb_width'] = bb_bands.iloc[:, 3]
+
+        superT = pta.supertrend(high=dataframe['high'], low=dataframe['low'], close=dataframe['close'], length=self.buy_supertrend_period.value, multiplier=self.buy_supertrend_multiplier.value)
+        dataframe['supertrend'] = superT.iloc[:, 1]
 
         atr = pta.atr(dataframe['high'], dataframe['low'], dataframe['close'], length=self.tpsl_atr_period.value)
         dataframe['atr'] = atr
@@ -58,8 +62,9 @@ class MACD(IStrategy):
         conditions = []
         dataframe.loc[:, 'enter_tag'] = ''
         buy_1 = (
-            (dataframe['longline'] == 100.0) &
-            (dataframe['macd_hist'] > 0)
+            (dataframe['close'] < dataframe['bb_middleband']) &
+            (dataframe['supertrend'] == 1) &
+            (dataframe['bb_width'] > self.buy_bb_width_value.value)
         )
         conditions.append(buy_1)
         dataframe.loc[buy_1, 'enter_tag'] += 'buy_1'
@@ -67,8 +72,6 @@ class MACD(IStrategy):
             dataframe.loc[
                 reduce(lambda x, y: x | y, conditions),
                 'enter_long'] = 1
-        # print(dataframe.value_counts())
-        # print(dataframe['enter_long'].value_counts())
         return dataframe
 
     def custom_exit(self, pair: str, trade: 'Trade', current_time: 'datetime', current_rate: float,
@@ -105,14 +108,14 @@ class MACD(IStrategy):
             # "
         if current_profit < 0:
             time_diff = current_time - trade.open_date_utc
-            delay_bar = int(time_diff.total_seconds() / (60*60))
+            delay_bar = int(time_diff.total_seconds() / (60*15))
             open_candle = dataframe.iloc[-delay_bar] if delay_bar != 0 else current_candle
             if current_candle["close"] < (open_candle["close"]  - open_candle['atr'] * self.atr_sl_rate.value):
                 return "lost_sell"
         
         if current_profit > 0:
             time_diff = current_time - trade.open_date_utc
-            delay_bar = int(time_diff.total_seconds() / (60*60))
+            delay_bar = int(time_diff.total_seconds() / (60*15))
             open_candle = dataframe.iloc[-delay_bar] if delay_bar != 0 else current_candle
             if current_candle["close"] > (open_candle["close"] + open_candle['atr'] * self.tpsl_rate.value):
                 return "profit_sell"

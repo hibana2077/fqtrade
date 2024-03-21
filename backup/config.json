@@ -1,0 +1,104 @@
+
+{
+    "max_open_trades": 30,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "USD",
+    "dry_run": true,
+    "dry_run_wallet": 20,
+    "cancel_open_orders_on_exit": false,
+    "trading_mode": "futures",
+    "margin_mode": "isolated",
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 10,
+        "exit_timeout_count": 0,
+        "unit": "minutes"
+    },
+    "entry_pricing": {
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing":{
+        "price_side": "other",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {},
+        "ccxt_async_config": {},
+        "pair_whitelist": [
+            "NEO/USDT:USDT"
+        ],
+        "pair_blacklist": [
+            "BNB/.*","USDC/.*","TUSD/.*","PAX/.*","USDS/.*","USDT/.*",
+            "AUCTION/USDT:USDT",
+            "1000RATS/USDT:USDT",
+            "ACE/USDT:USDT",
+            "MOVR/USDT:USDT",
+            "NFP/USDT:USDT",
+            "AI/USDT:USDT",
+            "XAI/USDT:USDT",
+            "WIF/USDT:USDT",
+            "MANTA/USDT:USDT",
+            "ONDO/USDT:USDT",
+            "LSK/USDT:USDT",
+            "ALT/USDT:USDT",
+            "JUP/USDT:USDT",
+            "ZETA/USDT:USDT",
+            "RONIN/USDT:USDT",
+            "DYM/USDT:USDT",
+            "OM/USDT:USDT",
+            "PIXEL/USDT:USDT",
+            "STRK/USDT:USDT",
+            "MAVIA/USDT:USDT",
+            "GLM/USDT:USDT",
+            "USTC/USDT:USDT",
+            "ARK/USDT:USDT",
+            "PORTAL/USDT:USDT",
+            "TON/USDT:USDT",
+            "AXL/USDT:USDT",
+            "MYRO/USDT:USDT",
+            "METIS/USDT:USDT",
+            "AEVO/USDT:USDT",
+            "BOME/USDT:USDT",
+            "VANRY/USDT:USDT"
+        ]
+    },
+    "pairlists": [
+        {"method": "StaticPairList"}
+    ],
+    "telegram": {
+        "enabled": false,
+        "token": "",
+        "chat_id": ""
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "0.0.0.0",
+        "listen_port": 8080,
+        "verbosity": "error",
+        "enable_openapi": false,
+        "jwt_secret_key": "2c0bfd5c9d9bc77827196ba4735d5df7ceab7346c27adbff0a1837c485cdd238",
+        "ws_token": "5dGUmu1BIob8aqZgngE44OtQ-RkVvDS0bA",
+        "CORS_origins": [],
+        "username": "freqtrader",
+        "password": "920310"
+    },
+    "bot_name": "freqtrade",
+    "initial_state": "running",
+    "force_entry_enable": false,
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}
