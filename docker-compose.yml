@@ -35,13 +35,13 @@ services:
       # --config /freqtrade/user_data/config.json
       # --strategy E0V1E
       # ===
-      # backtesting --strategy RSI_F 
+      # backtesting --strategy RSI_F
       # ===
       # download-data --exchange binance --days 30 -t 15m
       # ===
       # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss <hyperoptlossname> --strategy <strategyname> -e 500 --spaces all
       # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss QuickHyperOptLoss --strategy EVA2 -e 500 --spaces trailing stoploss roi --ignore-missing-spaces
-      # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss QuickHyperOptLoss --strategy EVA2 -e 500 --spaces trailing stoploss roi --ignore-missing-spaces --print-all -j 16
+      # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss ProfitDrawDownHyperOptLoss --strategy EVA2 -e 500 --spaces trailing stoploss roi --ignore-missing-spaces --print-all -j 16
       # hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss OnlyProfitHyperOptLoss --strategy RSI_F -e 500 --spaces roi --ignore-missing-spaces
     command: >
-      hyperopt --config /freqtrade/user_data/config.json --hyperopt-loss OnlyProfitHyperOptLoss --strategy RSI_F -e 500 --spaces all --ignore-missing-spaces
+      backtesting --strategy Mid
